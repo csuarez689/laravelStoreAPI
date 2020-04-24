@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json(['data' => $users], 200);
+        return $this->indexJsonResponse($users);
     }
 
     /**
@@ -53,7 +52,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['data' => $user], 200);
+        return $this->showJsonResponse($user);
     }
 
     /**
@@ -82,12 +81,12 @@ class UserController extends Controller
         }
         if ($request->has('admin')) {
             if (!$user->isVerified()) {
-                return response()->json(['error' => 'Solo los usuarios verificados pueden modificar el campo administrador.', 'code' => 409], 409);
+                return $this->errorJsonResponse('Solo los usuarios verificados pueden modificar el campo administrador.', 409);
             }
             $user->admin = $request->boolean('admin');
         }
         if ($user->isClean()) {
-            return response()->json(['error' => 'Necesitas especificar valores diferentes para actualizar', 'code' => 422], 422);
+            return $this->errorJsonResponse('No hay datos que actualizar.', 422);
         }
         $user->save();
         return response()->json(['data' => $user->fresh()], 200);
