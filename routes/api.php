@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,3 +12,20 @@ use Illuminate\Http\Request;
 |
 */
 
+// Users
+Route::apiResource('users','API\UserController');
+
+// Buyers
+Route::apiResource('buyers','API\BuyerController')->only(['index','show']);
+
+// Sellers
+Route::apiResource('sellers','API\SellerController')->only(['index','show']);
+
+// Categories
+Route::apiResource('categories','API\CategoryController');
+
+//Products
+Route::apiResource('products','API\ProductController');
+
+//Transactions
+Route::apiResource('transactions','API\TransactionController');
