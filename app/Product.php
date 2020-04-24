@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    const AVAILABLE_PRODUCT = 'available';
-    const UNAVAILABLE_PRODUCT = 'unavailable';
+    const AVAILABLE_PRODUCT = true;
+    const UNAVAILABLE_PRODUCT = false;
 
     protected $fillable = [
         'name',
