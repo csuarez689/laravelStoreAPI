@@ -16,7 +16,7 @@ class User extends Authenticatable
     const ADMIN_USER = true;
     const REGULAR_USER = false;
 
-    protected $table = 'users'; //declarada para que la herenden seller y buyer
+    protected $table = 'users'; //declarada para que la herenden sel    ler y buyer
     /**
      * The attributes that are mass assignable.
      *
@@ -50,6 +50,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = strtolower($name);
+    }
+
+    public function getNameAttribute($name)
+    {
+        return ucwords($name);
+    }
+
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = strtolower($email);
+    }
 
     public function isVerified()
     {
