@@ -9,6 +9,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -59,11 +60,14 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($exception, $r  equest);
+            return $this->convertValidationExceptionToResponse($exception, $request);
         }
         if ($exception instanceof ModelNotFoundException) {
             $name = $exception->getModel()::$modelName;
-            return $this->errorJsonResponse("No existe un {$name} con el identificador especificado", 404);
+            return $this->errorJsonResponse("No existe un registo de {$name} con el identificador especificado", 404);
+        }
+        if ($exception instanceof NotFoundHttpException){
+            return $this->errorJsonResponse('La URL ingresada no existe',404);
         }
         if ($exception instanceof AuthenticationException){
             return $this->unauthenticated($request,$exception);
@@ -71,7 +75,6 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AuthorizationException){
             return $this->errorJsonResponse($exception->getMessage(),403);
         }
-    
         return parent::render($request, $exception);
     }
 
