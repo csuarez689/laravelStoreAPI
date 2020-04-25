@@ -8,7 +8,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 
-
 class Handler extends ExceptionHandler
 {
 
@@ -57,10 +56,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        //trait manejador de excepciones con respuestas json
-        return $this->hasJsonResponse($request,$exception);
-        //renderizacion vista error
-        return parent::render($request, $exception);
+        //trait manejador de excepciones con respuestas json y rendirizacion si se encuentra en modo dev
+        return $this->createErrorResponse($request, $exception);
     }
 
     /**
@@ -87,6 +84,6 @@ class Handler extends ExceptionHandler
     //sobreescritura
     public function unauthenticated($request, AuthenticationException $exception)
     {
-        return $this->errorJsonResponse('Unauthenticated',401);
+        return $this->errorJsonResponse('Unauthenticated', 401);
     }
 }
