@@ -101,6 +101,6 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(['data' => $user->id], 200);
+        return response()->json(204);
     }
 }
