@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    public static $modelName = 'producto';
+
     const AVAILABLE_PRODUCT = true;
     const UNAVAILABLE_PRODUCT = false;
 

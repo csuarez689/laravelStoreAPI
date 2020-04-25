@@ -81,12 +81,12 @@ class UserController extends ApiController
         }
         if ($request->has('admin')) {
             if (!$user->isVerified()) {
-                return $this->errorJsonResponse('Solo los usuarios verificados pueden modificar el campo administrador.', 409);
+                return $this->errorJsonResponse('Solo los usuarios verificados pueden modificar el campo administrador', 409);
             }
             $user->admin = $request->boolean('admin');
         }
         if ($user->isClean()) {
-            return $this->errorJsonResponse('No hay datos que actualizar.', 422);
+            return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
         $user->save();
         return response()->json(['data' => $user->fresh()], 200);

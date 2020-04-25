@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public static $modelName = 'usuario';
+
     const VERIFIED_USER = true;
     const UNVERIFIED_USER = false;
 
