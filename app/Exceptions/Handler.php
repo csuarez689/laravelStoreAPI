@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
@@ -63,6 +64,10 @@ class Handler extends ExceptionHandler
             $name = $exception->getModel()::$modelName;
             return $this->errorJsonResponse("No existe un {$name} con el identificador especificado", 404);
         }
+        if ($exception instanceof AuthenticationException){
+            $this->unauthenticated($request,$exception);
+        }
+    
         return parent::render($request, $exception);
     }
 
@@ -71,11 +76,23 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Validation\ValidationException  $e
      * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         $errors = $e->validator->errors()->getMessages();
         return $this->errorJsonResponse($errors, 422);
+    }
+
+    /**
+     * Create a response object for unauthenticated users
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     * @return \Illuminate\Http\JsonResponse
+     **/
+    public function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->errorJsonResponse('Unauthenticated',401);
     }
 }
