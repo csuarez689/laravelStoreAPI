@@ -2,20 +2,19 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiHandlerExceptionsResponser;
 use App\Traits\ApiResponser;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 class Handler extends ExceptionHandler
 {
 
     use ApiResponser;
+    use ApiHandlerExceptionsResponser;
 
     /**
      * A list of the exception types that are not reported.
@@ -60,31 +59,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        //respuesta para errorers de validacion
-        if ($exception instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($exception, $request);
-        }
-        //respuesta modelo o registro no encontrado
-        if ($exception instanceof ModelNotFoundException) {
-            $name = $exception->getModel()::$modelName;
-            return $this->errorJsonResponse("No existe un registo de {$name} con el identificador especificado", 404);
-        }
-        //respuesta error en url ingresada
-        if ($exception instanceof NotFoundHttpException){
-            return $this->errorJsonResponse('La URL ingresada no existe',404);
-        }
-        //respuesta error de autenticacion de usuario
-        if ($exception instanceof AuthenticationException){
-            return $this->unauthenticated($request,$exception);
-        }
-        //respuesta error permisos insuficientes 
-        if ($exception instanceof AuthorizationException){
-            return $this->errorJsonResponse($exception->getMessage(),403);
-        }
-        //respuesta error metodo no valido en peticion http
-        if($exception instanceof MethodNotAllowedHttpException){
-            return $this->errorJsonResponse('El mertodo especificado para la peticion es invalido', 405);
-        }
+        //trait manejador de excepciones con respuestas json
+        return $this->hasJsonResponse($request,$exception);
+        //renderizacion vista error
         return parent::render($request, $exception);
     }
 
@@ -95,6 +72,7 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
+    //sobrescritura del metodo
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         $errors = $e->validator->errors()->getMessages();
@@ -108,6 +86,7 @@ class Handler extends ExceptionHandler
      * @param \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\JsonResponse
      **/
+    //sobreescritura
     public function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->errorJsonResponse('Unauthenticated',401);
