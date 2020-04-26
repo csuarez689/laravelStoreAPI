@@ -54,12 +54,13 @@ trait ApiHandlerExceptionResponser
                 return $this->errorJsonResponse('No se puede eliminar este recurso. Existe informacion relacionada con el mismo', 409);
             }
         }
-        //renderizacion de todos los errores en vista -- for develepment
+        //renderizacion de todos los errores en vista -- para desarrollo debug=true
         if (config('app.debug')) {
             return parent::render($request, $exception);
         }
 
-        //resto de errores genericos json-- for production
+        //resto de errores genericos json -- para produccion with debug=false
+        //unexpected exception
         return $this->errorJsonResponse('Ocurrió un error inesperado. Intente más tarde', 500);
     }
 }
