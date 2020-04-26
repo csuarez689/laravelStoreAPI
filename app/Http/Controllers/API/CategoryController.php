@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
+    private $rules = [
+        'name' => 'required|min:3|max:40',
+        'description' => 'required|min:10|max:255',
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,8 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-        //
+        $categories = Category::orderBy('name', 'asc')->get();
+        return $this->successJsonResponse($categories);
     }
 
     /**
@@ -24,40 +30,50 @@ class CategoryController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, $this->rules);
+        $category = Category::create($request->all());
+
+        return $this->successJsonResponse($category, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $this->successJsonResponse($category);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, $this->rules);
+        $category->fill($request->only(['name', 'description']));
+        if ($category->isClean()) {
+            return $this->errorJsonResponse('No hay datos que actualizar', 422);
+        }
+        $category->save();
+        return $this->successJsonResponse($category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return $this->successJsonResponse(['id' => $category->id]);
     }
 }

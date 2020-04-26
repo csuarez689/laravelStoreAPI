@@ -41,7 +41,7 @@ trait ApiHandlerExceptionResponser
         }
         //respuesta error metodo no valido en peticion http
         if ($exception instanceof MethodNotAllowedHttpException) {
-            return $this->errorJsonResponse('El mertodo especificado para la peticion es invalido', 405);
+            return $this->errorJsonResponse('El metodo especificado para la peticion es invalido', 405);
         }
         //respuestas generales http exceptions
         if ($exception instanceof HttpException) {

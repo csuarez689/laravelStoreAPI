@@ -14,7 +14,7 @@ class BuyerController extends ApiController
     public function index()
     {
         $buyers = Buyer::all();
-        return $this->indexJsonResponse($buyers);
+        return $this->successJsonResponse($buyers);
     }
 
     /**
@@ -25,7 +25,7 @@ class BuyerController extends ApiController
      */
     public function show(Buyer $buyer)
     {
-        return $this->showJsonResponse($buyer);
+        return $this->successJsonResponse($buyer);
     }
 
 }

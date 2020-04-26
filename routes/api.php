@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -10,22 +9,22 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 // Users
-Route::apiResource('users','API\UserController');
+Route::apiResource('users', 'API\UserController');
 
 // Buyers
-Route::apiResource('buyers','API\BuyerController')->only(['index','show']);
+Route::apiResource('buyers', 'API\BuyerController')->only(['index', 'show']);
 
 // Sellers
-Route::apiResource('sellers','API\SellerController')->only(['index','show']);
+Route::apiResource('sellers', 'API\SellerController')->only(['index', 'show']);
 
 // Categories
-Route::apiResource('categories','API\CategoryController');
+Route::apiResource('categories', 'API\CategoryController');
 
 //Products
-Route::apiResource('products','API\ProductController');
+Route::apiResource('products', 'API\ProductController');
 
 //Transactions
-Route::apiResource('transactions','API\TransactionController');
+Route::apiResource('transactions', 'API\TransactionController');

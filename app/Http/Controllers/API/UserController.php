@@ -16,7 +16,7 @@ class UserController extends ApiController
     public function index()
     {
         $users = User::all();
-        return $this->indexJsonResponse($users);
+        return $this->successJsonResponse($users);
     }
 
     /**
@@ -41,7 +41,7 @@ class UserController extends ApiController
         $data['admin'] = User::REGULAR_USER;
 
         $user = User::create($data);
-        return response()->json(['data' => $user], 201);
+        return $this->successJsonResponse($user, 201);
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
-        return $this->showJsonResponse($user);
+        return $this->successJsonResponse($user);
     }
 
     /**
@@ -89,7 +89,7 @@ class UserController extends ApiController
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
         $user->save();
-        return response()->json(['data' => $user->fresh()], 200);
+        return $this->successJsonResponse($user->fresh());
     }
 
     /**
@@ -101,6 +101,6 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(204);
+        return $this->successJsonResponse(['id' => $user->id]);
     }
 }

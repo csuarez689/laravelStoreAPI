@@ -7,24 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 
 trait ApiResponser
 {
-    private function successJsonResponse($data, $code)
+    /**
+     * Create a custom success json response
+     *
+     * @param Mixed $data can be a Collection or Model
+     * @param Integer $code default value 200
+     * @return \Illuminate\Http\JsonResponse with $data and $code
+     **/
+    protected function successJsonResponse($data, $code = 200)
     {
-        return response()->json($data, $code);
+        return response()->json(['data' => $data], $code);
     }
 
+    /**
+     * Create a custom error json response
+     *
+     * @param Mixed $message String[] or String
+     * @param Integer $code doesn't have default value
+     * @return JsonResponse with $message error and $code
+     **/
     protected function errorJsonResponse($message, $code)
     {
         return response()->json(['error' => $message, 'code' => $code], $code);
-    }
-    //respuesta con colleccion
-    protected function indexJsonResponse(Collection $collection, $code = 200)
-    {
-        return $this->successJsonResponse(['data' => $collection], $code);
-    }
-    //respuesta para un modelo
-    protected function showJsonResponse(Model $model, $code = 200)
-    {
-        return $this->successJsonResponse(['data' => $model], $code);
     }
 
 }
