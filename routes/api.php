@@ -12,19 +12,20 @@
  */
 
 // Users
-Route::apiResource('users', 'API\UserController');
+Route::apiResource('users', 'User\UserController');
 
 // Buyers
-Route::apiResource('buyers', 'API\BuyerController')->only(['index', 'show']);
+Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
 
 // Sellers
-Route::apiResource('sellers', 'API\SellerController')->only(['index', 'show']);
+Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
 
 // Categories
-Route::apiResource('categories', 'API\CategoryController');
+Route::apiResource('categories', 'Category\CategoryController');
 
 //Products
-Route::apiResource('products', 'API\ProductController')->only(['index', 'show']);
+Route::apiResource('products', 'Product\ProductController')->only(['index', 'show']);
 
 //Transactions
-Route::apiResource('transactions', 'API\TransactionController')->only(['index', 'show']);
+Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
+Route::apiResource('transactions.categories', 'Transaction\TransactionCategoryController')->only(['index']);
