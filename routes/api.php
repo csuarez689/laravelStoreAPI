@@ -24,6 +24,7 @@ Route::apiResource('buyers.categories', 'Buyer\BuyerCategoryController')->only([
 // Sellers
 Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
 Route::apiResource('sellers.transactions', 'Seller\SellerTransactionController')->only(['index']);
+Route::apiResource('sellers.categories', 'Seller\SellerCategoryController')->only(['index']);
 
 // Categories
 Route::apiResource('categories', 'Category\CategoryController');
