@@ -16,7 +16,8 @@ Route::apiResource('users', 'User\UserController');
 
 // Buyers
 Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
-Route::apiResource('buyers.transaction', 'Buyer\BuyerTransactionController')->only(['index']);
+Route::apiResource('buyers.transactions', 'Buyer\BuyerTransactionController')->only(['index']);
+Route::apiResource('buyers.products', 'Buyer\BuyerProductController')->only(['index']);
 
 // Sellers
 Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
