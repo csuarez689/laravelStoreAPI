@@ -29,3 +29,4 @@ Route::apiResource('products', 'Product\ProductController')->only(['index', 'sho
 //Transactions
 Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
 Route::apiResource('transactions.categories', 'Transaction\TransactionCategoryController')->only(['index']);
+Route::apiResource('transactions.sellers', 'Transaction\TransactionSellerController')->only(['index']);
