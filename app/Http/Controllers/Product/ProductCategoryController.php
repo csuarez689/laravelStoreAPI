@@ -33,7 +33,6 @@ class ProductCategoryController extends ApiController
         $product->categories()->syncWithoutDetaching([$category->id]);
         return $this->successJsonResponse($product->categories);
     }
-
     /**
      * Remove the specified resource from storage.
      *

@@ -40,6 +40,7 @@ Route::apiResource('products', 'Product\ProductController')->only(['index', 'sho
 Route::apiResource('products.transactions', 'Product\ProductTransactionController')->only(['index']);
 Route::apiResource('products.buyers', 'Product\ProductBuyerController')->only(['index']);
 Route::apiResource('products.categories', 'Product\ProductCategoryController')->only(['index', 'update', 'destroy']);
+Route::apiResource('products.buyers.transactions', 'Product\ProductBuyerTransactionController')->only(['store']);
 
 //Transactions
 Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
