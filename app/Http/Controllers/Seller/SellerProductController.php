@@ -7,6 +7,7 @@ use App\Product;
 use App\Seller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -43,7 +44,7 @@ class SellerProductController extends ApiController
 
         $data = $request->all();
         $data['status'] = $request->boolean('status');
-        $data['image'] = '1.jpeg';
+        $data['image'] = $request->image->store('');
         $data['seller_id'] = $seller->id;
 
         $product = Product::create($data);
@@ -75,10 +76,18 @@ class SellerProductController extends ApiController
             'name',
             'description',
             'quantity',
-            'image',
-            'status',
         ]));
 
+        if ($request->has('status')) {
+            $product->status = $request->status;
+            if ($product->isAvailable() && $product->categories()->count() == 0) {
+                return $this->errorJsonResponse('Un producto activo debe tener al menos una categoria', 409);
+            }
+        }
+        if ($request->hasFile('image')) {
+            Storage::delete($product->image);
+            $product->image = $request->image->store('');
+        }
         if ($product->isClean()) {
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
@@ -96,6 +105,7 @@ class SellerProductController extends ApiController
     {
         $this->checkSeller($seller, $product);
         $product->delete();
+        Storage::delete($product->image);
         return $this->successJsonResponse(['id' => $product->id]);
     }
 
