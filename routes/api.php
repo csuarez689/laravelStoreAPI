@@ -13,6 +13,7 @@
 
 // Users
 Route::apiResource('users', 'User\UserController');
+Route::get('users/verify/{token}', 'User\UserController@verify')->name('verify');
 
 // Buyers
 Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);

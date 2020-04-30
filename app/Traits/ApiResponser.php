@@ -31,4 +31,9 @@ trait ApiResponser
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
+    protected function showMessage($message, $code = 200)
+    {
+        return response()->json(['data' => $message], $code);
+    }
+
 }

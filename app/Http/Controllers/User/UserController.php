@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,7 +39,7 @@ class UserController extends ApiController
         $data = $request->all();
         $data['password'] = Hash::make($request->password);
         $data['verified'] = User::UNVERIFIED_USER;
-        $data['veridication_token'] = User::generateVerificationCode();
+        $data['verification_token'] = User::generateVerificationCode();
         $data['admin'] = User::REGULAR_USER;
 
         $user = User::create($data);
@@ -103,5 +104,15 @@ class UserController extends ApiController
     {
         $user->delete();
         return $this->successJsonResponse(['id' => $user->id]);
+    }
+
+    public function verify($token)
+    {
+        $user = User::where('verification_token', $token)->firstOrFail();
+        $user->verified = User::VERIFIED_USER;
+        $user->verification_token = null;
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+        return $this->showMessage(['message' => 'Su correo ha sido verificado correctamente']);
     }
 }
