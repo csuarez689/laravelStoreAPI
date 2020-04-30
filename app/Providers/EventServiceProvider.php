@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Mail\UserCreated;
+use App\Mail\UserMailChanged;
 use App\Product;
 use App\User;
 use Illuminate\Auth\Events\Registered;
@@ -35,7 +36,13 @@ class EventServiceProvider extends ServiceProvider
 
         //event listener for new user created
         User::created(function ($user) {
-            Mail::to($user)->send(new UserCreated($user));
+            retry(5, function () use ($user) {
+                Mail::to($user)->send(new UserCreated($user));
+            }, 2000);
+        });
+
+        User::updated(function ($user) {
+            $user->isCLean('email') ?: Mail::to($user)->send(new UserMailChanged($user));
         });
 
         //event listener quantity of product changes

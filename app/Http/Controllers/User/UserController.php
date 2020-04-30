@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
+use App\Mail\UserCreated;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
@@ -43,7 +45,7 @@ class UserController extends ApiController
         $data['admin'] = User::REGULAR_USER;
 
         $user = User::create($data);
-        return $this->successJsonResponse($user, 201);
+        return $this->successJsonResponse($user->fresh(), 201);
     }
 
     /**
@@ -67,11 +69,18 @@ class UserController extends ApiController
     public function update(Request $request, User $user)
     {
         $rules = [
-            'email' => 'email|unique:users,email,' . $user->id,
+            'email' => 'email|unique:users,email ,' . $user->id,
             'password' => 'min:8|confirmed',
+            'admin' => 'in: 0,1',
         ];
         $this->validate($request, $rules);
 
+        if ($request->has('admin')) {
+            if (!$user->isVerified()) {
+                return $this->errorJsonResponse('Solo los usuarios verificados pueden modificar el campo administrador', 409);
+            }
+            $user->admin = $request->admin;
+        }
         if ($request->has('name')) {
             $user->name = $request->name;
         }
@@ -80,12 +89,6 @@ class UserController extends ApiController
             $user->email_verified_at = null;
             $user->verification_token = User::generateVerificationCode();
             $user->email = $request->email;
-        }
-        if ($request->has('admin')) {
-            if (!$user->isVerified()) {
-                return $this->errorJsonResponse('Solo los usuarios verificados pueden modificar el campo administrador', 409);
-            }
-            $user->admin = $request->boolean('admin');
         }
         if ($user->isClean()) {
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
@@ -114,5 +117,16 @@ class UserController extends ApiController
         $user->email_verified_at = Carbon::now();
         $user->save();
         return $this->showMessage(['message' => 'Su correo ha sido verificado correctamente']);
+    }
+
+    public function resend(User $user)
+    {
+        if ($user->isVerified()) {
+            return $this->errorJsonResponse('El usuario ya se encuentra verificado', 409);
+        }
+        retry(5, function () use ($user) {
+            Mail::to($user)->send(new UserCreated($user));
+        }, 2000);
+        return $this->successJsonResponse(['message' => 'El correo de verificacion ha sido reenviado']);
     }
 }
