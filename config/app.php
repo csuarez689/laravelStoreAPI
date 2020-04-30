@@ -13,7 +13,7 @@ return [
     |
      */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'RESTFulAPI-Store'),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
     |
      */
 
-    'timezone' => '	America/Argentina/San_Luis',
+    'timezone' => 'America/Argentina/San_Luis',
 
     /*
     |--------------------------------------------------------------------------
