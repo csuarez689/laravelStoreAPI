@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\TransactionTransformer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,6 +11,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     public static $modelName = 'transacción';
+    public $transformer = TransactionTransformer::class;
 
     protected $fillable = [
         'quantity',

@@ -15,6 +15,6 @@ class ProductTransactionController extends ApiController
     public function index(Product $product)
     {
         $transactions = $product->transactions;
-        return $this->successJsonResponse($transactions);
+        return $this->showAll($transactions);
     }
 }

@@ -18,7 +18,7 @@ class ProductCategoryController extends ApiController
     {
         $categories = $product->categories;
 
-        return $this->successJsonResponse($categories);
+        return $this->showAll($categories);
     }
 
     /**
@@ -31,7 +31,7 @@ class ProductCategoryController extends ApiController
     public function update(Request $request, Product $product, Category $category)
     {
         $product->categories()->syncWithoutDetaching([$category->id]);
-        return $this->successJsonResponse($product->categories);
+        return $this->showAll($product->categories);
     }
     /**
      * Remove the specified resource from storage.
@@ -45,6 +45,6 @@ class ProductCategoryController extends ApiController
             return $this->errorJsonResponse('El producto no tiene asignada esta categoria', 404);
         }
         $product->categories()->detach($category->id);
-        return $this->successJsonResponse($product->categories);
+        return $this->showAll($product->categories);
     }
 }

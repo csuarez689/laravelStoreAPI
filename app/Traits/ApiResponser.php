@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as SupportCollection;
 
 trait ApiResponser
 {
@@ -14,9 +15,9 @@ trait ApiResponser
      * @param Integer $code default value 200
      * @return \Illuminate\Http\JsonResponse with $data and $code
      **/
-    protected function successJsonResponse($data, $code = 200)
+    private function successJsonResponse($data, $code)
     {
-        return response()->json(['data' => $data], $code);
+        return response()->json($data, $code);
     }
 
     /**
@@ -31,9 +32,30 @@ trait ApiResponser
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
+    protected function showAll(SupportCollection $collection, $code = 200)
+    {
+        if ($collection->isEmpty()) {
+            return $this->successJsonResponse(['data' => $collection], $code);
+        }
+        $transformer = $collection->first()->transformer;
+        $collection = $this->transformData($collection, $transformer);
+        return $this->successJsonResponse($collection, $code);
+    }
+    protected function showOne(Model $instance, $code = 200)
+    {
+        $transformer = $instance->transformer;
+        $instance = $this->transformData($instance, $transformer);
+        return $this->successJsonResponse($instance, $code);
+    }
+
     protected function showMessage($message, $code = 200)
     {
         return response()->json(['data' => $message], $code);
     }
 
+    protected function transformData($data, $transformer)
+    {
+        $transformation = fractal($data, new $transformer);
+        return $transformation->toArray();
+    }
 }

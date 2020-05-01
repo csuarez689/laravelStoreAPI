@@ -20,6 +20,6 @@ class CategorySellerController extends ApiController
             ->unique()
             ->values();
 
-        return $this->successJsonResponse($sellers);
+        return $this->showAll($sellers);
     }
 }

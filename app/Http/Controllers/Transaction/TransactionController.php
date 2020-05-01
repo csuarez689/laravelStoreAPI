@@ -15,7 +15,7 @@ class TransactionController extends ApiController
     public function index()
     {
         $transactions = Transaction::all();
-        return $this->successJsonResponse($transactions);
+        return $this->showAll($transactions);
     }
 
     /**
@@ -26,6 +26,6 @@ class TransactionController extends ApiController
      */
     public function show(Transaction $transaction)
     {
-        return $this->successJsonResponse($transaction);
+        return $this->showOne($transaction);
     }
 }

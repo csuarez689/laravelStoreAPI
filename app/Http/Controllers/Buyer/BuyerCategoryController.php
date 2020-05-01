@@ -21,6 +21,6 @@ class BuyerCategoryController extends ApiController
             ->unique('id')
             ->values(); //resetea los indices de la coleccion
 
-        return $this->successJsonResponse($categories);
+        return $this->showAll($categories);
     }
 }

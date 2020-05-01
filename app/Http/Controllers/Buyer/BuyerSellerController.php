@@ -20,6 +20,6 @@ class BuyerSellerController extends ApiController
             ->unique('id')
             ->values(); //se agrega para resetear los indices de la coleccion
 
-        return $this->successJsonResponse($sellers);
+        return $this->showAll($sellers);
     }
 }

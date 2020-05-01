@@ -15,6 +15,6 @@ class TransactionCategoryController extends ApiController
     public function index(Transaction $transaction)
     {
         $categories = $transaction->product->categories;
-        return $this->successJsonResponse($categories);
+        return $this->showAll($categories);
     }
 }

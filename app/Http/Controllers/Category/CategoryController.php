@@ -20,7 +20,7 @@ class CategoryController extends ApiController
     public function index()
     {
         $categories = Category::orderBy('name', 'asc')->get();
-        return $this->successJsonResponse($categories);
+        return $this->showAll($categories);
     }
 
     /**
@@ -34,7 +34,7 @@ class CategoryController extends ApiController
         $this->validate($request, $this->rules);
         $category = Category::create($request->all());
 
-        return $this->successJsonResponse($category, 201);
+        return $this->showOne($category, 201);
     }
 
     /**
@@ -45,7 +45,7 @@ class CategoryController extends ApiController
      */
     public function show(Category $category)
     {
-        return $this->successJsonResponse($category);
+        return $this->showOne($category);
     }
 
     /**
@@ -63,7 +63,7 @@ class CategoryController extends ApiController
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
         $category->save();
-        return $this->successJsonResponse($category);
+        return $this->showOne($category);
     }
 
     /**
@@ -75,6 +75,6 @@ class CategoryController extends ApiController
     public function destroy(Category $category)
     {
         $category->delete();
-        return $this->successJsonResponse(['id' => $category->id]);
+        return $this->showMessage(['id' => $category->id]);
     }
 }

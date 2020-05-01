@@ -15,7 +15,7 @@ class ProductController extends ApiController
     public function index()
     {
         $products = Product::all();
-        return $this->successJsonResponse($products);
+        return $this->showAll($products);
     }
 
     /**
@@ -26,6 +26,6 @@ class ProductController extends ApiController
      */
     public function show(Product $product)
     {
-        return $this->successJsonResponse($product);
+        return $this->showOne($product);
     }
 }

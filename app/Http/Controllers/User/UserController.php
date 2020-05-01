@@ -20,7 +20,7 @@ class UserController extends ApiController
     public function index()
     {
         $users = User::all();
-        return $this->successJsonResponse($users);
+        return $this->showAll($users);
     }
 
     /**
@@ -32,7 +32,7 @@ class UserController extends ApiController
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required',
+            'name' => 'required|min:5',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ];
@@ -45,7 +45,7 @@ class UserController extends ApiController
         $data['admin'] = User::REGULAR_USER;
 
         $user = User::create($data);
-        return $this->successJsonResponse($user->fresh(), 201);
+        return $this->showOne($user, 201);
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
-        return $this->successJsonResponse($user);
+        return $this->showOne($user);
     }
 
     /**
@@ -69,7 +69,8 @@ class UserController extends ApiController
     public function update(Request $request, User $user)
     {
         $rules = [
-            'email' => 'email|unique:users,email ,' . $user->id,
+            'name' => 'min:5',
+            'email' => 'email|unique:users,email,' . $user->id,
             'password' => 'min:8|confirmed',
             'admin' => 'in: 0,1',
         ];
@@ -94,7 +95,7 @@ class UserController extends ApiController
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
         $user->save();
-        return $this->successJsonResponse($user->fresh());
+        return $this->showOne($user);
     }
 
     /**
@@ -106,7 +107,7 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         $user->delete();
-        return $this->successJsonResponse(['id' => $user->id]);
+        return $this->showMessage(['id' => $user->id]);
     }
 
     public function verify($token)
@@ -127,6 +128,6 @@ class UserController extends ApiController
         retry(5, function () use ($user) {
             Mail::to($user)->send(new UserCreated($user));
         }, 2000);
-        return $this->successJsonResponse(['message' => 'El correo de verificacion ha sido reenviado']);
+        return $this->showMessage(['message' => 'El correo de verificacion ha sido reenviado']);
     }
 }

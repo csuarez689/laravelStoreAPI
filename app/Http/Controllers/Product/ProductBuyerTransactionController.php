@@ -49,7 +49,7 @@ class ProductBuyerTransactionController extends ApiController
                 'buyer_id' => $buyer->id,
                 'product_id' => $product->id,
             ]);
-            return $this->successJsonResponse($transaction, 201);
+            return $this->showOne($transaction, 201);
         });
     }
 }

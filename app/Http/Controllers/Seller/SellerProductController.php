@@ -21,7 +21,7 @@ class SellerProductController extends ApiController
     {
         $products = $seller->products;
 
-        return $this->successJsonResponse($products);
+        return $this->ShowAll($products);
     }
 
     /**
@@ -49,7 +49,7 @@ class SellerProductController extends ApiController
 
         $product = Product::create($data);
 
-        return $this->successJsonResponse($product);
+        return $this->showOne($product);
     }
 
     /**
@@ -92,7 +92,7 @@ class SellerProductController extends ApiController
             return $this->errorJsonResponse('No hay datos que actualizar', 422);
         }
         $product->save();
-        return $this->successJsonResponse($product->fresh());
+        return $this->showOne($product);
     }
 
     /**
@@ -106,7 +106,7 @@ class SellerProductController extends ApiController
         $this->checkSeller($seller, $product);
         $product->delete();
         Storage::delete($product->image);
-        return $this->successJsonResponse(['id' => $product->id]);
+        return $this->showMessage(['id' => $product->id]);
     }
 
     private function checkSeller(Seller $seller, Product $product)
