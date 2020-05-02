@@ -163,6 +163,7 @@ return [
         'buyer_id' => 'id del comprador',
         'product_id' => 'id del producto',
         'category_id' => 'id de la categoria',
+        'per_page' => 'paginas',
     ],
 
 ];
