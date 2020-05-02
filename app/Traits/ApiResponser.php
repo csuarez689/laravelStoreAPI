@@ -37,8 +37,15 @@ trait ApiResponser
         if ($collection->isEmpty()) {
             return $this->successJsonResponse(['data' => $collection], $code);
         }
+        //obtiene transformardor de acuerdo a la instancia
         $transformer = $collection->first()->transformer;
+        //filtra los datos
+        $collection = $this->filterData($collection, $transformer);
+        //ordena por un atributo
+        $collection = $this->sortData($collection, $transformer);
+        //transforma la coleccion
         $collection = $this->transformData($collection, $transformer);
+
         return $this->successJsonResponse($collection, $code);
     }
     protected function showOne(Model $instance, $code = 200)
@@ -57,5 +64,26 @@ trait ApiResponser
     {
         $transformation = fractal($data, new $transformer);
         return $transformation->toArray();
+    }
+
+    protected function sortData(SupportCollection $collection, $transformer)
+    {
+        if (request()->has('sort_by')) {
+            //obtiene el nombre original del parametro - evitando capa Fractal
+            $attribute = $transformer::originalAttributes(request()->sort_by);
+            $collection = $collection->sortBy->{$attribute};
+        }
+        return $collection;
+    }
+    protected function filterData(SupportCollection $collection, $transformer)
+    {
+        foreach (request()->query() as $query => $value) {
+            //obtiene el nombre original del parametro - evitando capa Fractal
+            $attribute = $transformer::originalAttributes($query);
+            if (isset($attribute, $value)) {
+                $collection = $collection->where($attribute, $value);
+            }
+        }
+        return $collection;
     }
 }

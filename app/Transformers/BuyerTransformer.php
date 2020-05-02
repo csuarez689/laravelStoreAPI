@@ -36,10 +36,25 @@ class BuyerTransformer extends TransformerAbstract
             'id' => (int) $buyer->id,
             'name' => (string) $buyer->name,
             'email' => (string) $buyer->email,
-            'isVerified' => (boolean) $buyer->verified,
+            'isVerified' => (string) $buyer->verified,
             'creationDate' => (string) $buyer->created_at,
             'lastChange' => (string) $buyer->updated_at,
             'deletedDate' => isset($buyer->deleted_at) ? $buyer->deleted_at : null,
         ];
+    }
+
+    public static function originalAttributes($index)
+    {
+        $attributes = [
+            'id' => 'id',
+            'name' => 'name',
+            'email' => 'email',
+            'isVerified' => 'verified',
+            'creationDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' => 'deleted_at',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
     }
 }
