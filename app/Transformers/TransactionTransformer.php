@@ -40,6 +40,14 @@ class TransactionTransformer extends TransformerAbstract
             'creationDate' => (string) $transaction->created_at,
             'lastChange' => (string) $transaction->updated_at,
             'deletedDate' => isset($transaction->deleted_at) ? $transaction->deleted_at : null,
+
+            'links' => [
+                'self' => route('transactions.show', $transaction->id),
+                'product' => route('products.show', $transaction->product_id),
+                'buyer' => route('buyers.show', $transaction->buyer_id),
+                'transaction.categories' => route('transactions.categories.index', $transaction->id),
+                'transaction.seller' => route('transactions.sellers.index', $transaction->id),
+            ],
         ];
     }
 

@@ -3,13 +3,13 @@
 namespace App;
 
 use App\Scopes\BuyerScope;
-use App\Transformers\UserTransformer;
+use App\Transformers\BuyerTransformer;
 
 class Buyer extends User
 {
 
     public static $modelName = 'comprador';
-    public $transformer = UserTransformer::class;
+    public $transformer = BuyerTransformer::class;
 
     protected static function boot()
     {

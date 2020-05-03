@@ -41,6 +41,10 @@ class UserTransformer extends TransformerAbstract
             'creationDate' => (string) $user->created_at,
             'lastChange' => (string) $user->updated_at,
             'deletedDate' => isset($user->deleted_at) ? $user->deleted_at : null,
+
+            'links' => [
+                'self' => route('users.show', $user->id),
+            ],
         ];
     }
 

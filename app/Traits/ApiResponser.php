@@ -2,10 +2,9 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,7 +34,7 @@ trait ApiResponser
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
-    protected function showAll(SupportCollection $collection, $code = 200)
+    protected function showAll(Collection $collection, $code = 200)
     {
         if ($collection->isEmpty()) {
             return $this->successJsonResponse(['data' => $collection], $code);
@@ -73,7 +72,7 @@ trait ApiResponser
         return $transformation->toArray();
     }
 
-    protected function sortData(SupportCollection $collection, $transformer)
+    protected function sortData(Collection $collection, $transformer)
     {
         if (request()->has('sort_by')) {
             //obtiene el nombre original del parametro - evitando capa Fractal
@@ -83,7 +82,7 @@ trait ApiResponser
         return $collection;
     }
 
-    protected function filterData(SupportCollection $collection, $transformer)
+    protected function filterData(Collection $collection, $transformer)
     {
         foreach (request()->query() as $query => $value) {
             //obtiene el nombre original del parametro - evitando capa Fractal
@@ -95,7 +94,7 @@ trait ApiResponser
         return $collection;
     }
 
-    protected function paginate(SupportCollection $collection)
+    protected function paginate(Collection $collection)
     {
         //restricciones de paginacion
         $rules = [
