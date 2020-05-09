@@ -12,6 +12,12 @@ class CategoryController extends ApiController
         'name' => 'required|min:3|max:40',
         'description' => 'required|min:10|max:255',
     ];
+
+    public function __construct()
+    {
+        $this->middleware('client.credentials')->only(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
