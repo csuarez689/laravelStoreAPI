@@ -48,3 +48,6 @@ Route::apiResource('products.buyers.transactions', 'Product\ProductBuyerTransact
 Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
 Route::apiResource('transactions.categories', 'Transaction\TransactionCategoryController')->only(['index']);
 Route::apiResource('transactions.sellers', 'Transaction\TransactionSellerController')->only(['index']);
+
+//Authentication
+Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
