@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**
@@ -13,9 +11,13 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['welcome']);
     }
 
+    public function welcome()
+    {
+        return view('welcome');
+    }
     /**
      * Show the application dashboard.
      *
@@ -24,5 +26,17 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    public function getTokens()
+    {
+        return view('home.personal-tokens');
+    }
+    public function getAutorizedClients()
+    {
+        return view('home.authorized-clients');
+    }
+    public function getClients()
+    {
+        return view('home.personal-clients');
     }
 }

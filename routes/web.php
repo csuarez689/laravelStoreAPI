@@ -31,9 +31,11 @@ Route::get('email/verify', 'Auth\VerificationController@show')->name('verificati
 Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Tokens
+Route::get('/home/myTokens', 'HomeController@getTokens')->name('personal-tokens');
+Route::get('/home/myClients', 'HomeController@getClients')->name('personal-clients');
+Route::get('/home/authorizedClients', 'HomeController@getAuthorizedClients')->name('authorized-clients');
 
 //Pagina principal
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('guest');
+Route::get('/', 'HomeController@welcome');
+Route::get('/home', 'HomeController@index')->name('home');
