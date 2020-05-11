@@ -147,7 +147,7 @@ class Handler extends ExceptionHandler
         if ($this->isFrontend($request)) {
             return redirect()->guest('login');
         }
-        return $this->errorJsonResponse('Unauthenticated', 401);
+        return $this->errorJsonResponse('No autenticado', 401);
     }
 
     private function isFrontend($request)

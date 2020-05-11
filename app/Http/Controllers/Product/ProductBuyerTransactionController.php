@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductBuyerTransactionController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Store a newly created resource in storage.
      *

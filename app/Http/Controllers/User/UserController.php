@@ -15,6 +15,7 @@ class UserController extends ApiController
     public function __construct()
     {
         $this->middleware('client.credentials')->only(['store', 'resend']);
+        $this->middleware('auth:api')->except(['store', 'resend']);
     }
     /**
      * Display a listing of the resource.
