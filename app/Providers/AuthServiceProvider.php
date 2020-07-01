@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
         Passport::tokensExpireIn(Carbon::now()->addSeconds(30));
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays(15));
         Passport::enableImplicitGrant();
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ede93b12fbdff33eb955f8c3fd62e521",
+    "content-hash": "6dc591b609fe18f1e60e1fdc7f504838",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -923,22 +923,22 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v8.4.4",
+            "version": "v9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "dd4b1d96eb1fe556a6eb2c55c942360364aa02c1"
+                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/dd4b1d96eb1fe556a6eb2c55c942360364aa02c1",
-                "reference": "dd4b1d96eb1fe556a6eb2c55c942360364aa02c1",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/724acaea99204728a1baf7b9b730bf97debbf94c",
+                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "firebase/php-jwt": "^3.0|^4.0|^5.0",
-                "guzzlehttp/guzzle": "^6.0",
+                "firebase/php-jwt": "^5.0",
+                "guzzlehttp/guzzle": "^6.0|^7.0",
                 "illuminate/auth": "^6.0|^7.0",
                 "illuminate/console": "^6.0|^7.0",
                 "illuminate/container": "^6.0|^7.0",
@@ -949,7 +949,7 @@
                 "illuminate/http": "^6.0|^7.0",
                 "illuminate/support": "^6.0|^7.0",
                 "laminas/laminas-diactoros": "^2.2",
-                "league/oauth2-server": "^8.0",
+                "league/oauth2-server": "^8.1",
                 "nyholm/psr7": "^1.0",
                 "php": "^7.2",
                 "phpseclib/phpseclib": "^2.0",
@@ -963,7 +963,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.x-dev"
+                    "dev-master": "9.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -992,7 +992,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2020-04-21T19:24:59+00:00"
+            "time": "2020-06-30T20:21:17+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -6340,5 +6340,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

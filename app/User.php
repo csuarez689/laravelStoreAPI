@@ -11,7 +11,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, HasApiTokens;
 
     public static $modelName = 'usuario';
     public $transformer = UserTransformer::class;

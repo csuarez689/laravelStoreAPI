@@ -39,3 +39,7 @@ Route::get('/home/authorizedClients', 'HomeController@getAuthorizedClients')->na
 //Pagina principal
 Route::get('/', 'HomeController@welcome');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
