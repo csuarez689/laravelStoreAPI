@@ -10,7 +10,7 @@ class CategoryController extends ApiController
 {
     private $rules = [
         'name' => 'required|min:3|max:40',
-        'description' => 'required|min:10|max:255',
+        'description' => 'required|min:1 0|max:255',
     ];
 
     public function __construct()

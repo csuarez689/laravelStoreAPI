@@ -1960,6 +1960,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*
    * The component's data.
@@ -1997,7 +2000,7 @@ __webpack_require__.r(__webpack_exports__);
     getTokens: function getTokens() {
       var _this = this;
 
-      axios.get('/oauth/tokens').then(function (response) {
+      axios.get("/oauth/tokens").then(function (response) {
         _this.tokens = response.data;
       });
     },
@@ -2008,7 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
     revoke: function revoke(token) {
       var _this2 = this;
 
-      axios["delete"]('/oauth/tokens/' + token.id).then(function (response) {
+      axios["delete"]("/oauth/tokens/" + token.id).then(function (response) {
         _this2.getTokens();
       });
     }
