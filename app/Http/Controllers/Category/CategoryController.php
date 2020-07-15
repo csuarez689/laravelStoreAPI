@@ -38,6 +38,8 @@ class CategoryController extends ApiController
      */
     public function store(Request $request)
     {
+        $this->allowedAdminActions();
+
         $this->validate($request, $this->rules);
         $category = Category::create($request->all());
 
@@ -64,6 +66,8 @@ class CategoryController extends ApiController
      */
     public function update(Request $request, Category $category)
     {
+        $this->allowedAdminActions();
+
         $this->validate($request, $this->rules);
         $category->fill($request->only(['name', 'description']));
         if ($category->isClean()) {
@@ -81,6 +85,8 @@ class CategoryController extends ApiController
      */
     public function destroy(Category $category)
     {
+        $this->allowedAdminActions();
+
         $category->delete();
         return $this->showMessage(['id' => $category->id]);
     }
