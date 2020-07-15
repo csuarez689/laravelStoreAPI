@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \Fruitcake\Cors\HandleCors::class,
         Spatie\Fractal\FractalServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         /*
